@@ -1,34 +1,27 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.28;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-// Uncomment this line to use console.log
-// import "hardhat/console.sol";
+contract Storage {
+    // This variable will store the number
+    uint256 private storedNumber;
 
-contract Lock {
-    uint public unlockTime;
-    address payable public owner;
+    // This event will be emitted whenever the stored number is updated
+    event NumberStored(uint256 newNumber);
 
-    event Withdrawal(uint amount, uint when);
-
-    constructor(uint _unlockTime) payable {
-        require(
-            block.timestamp < _unlockTime,
-            "Unlock time should be in the future"
-        );
-
-        unlockTime = _unlockTime;
-        owner = payable(msg.sender);
+    // Constructor to initialize the stored number
+    constructor(uint256 initialNumber) {
+        storedNumber = initialNumber;
+        emit NumberStored(initialNumber);
     }
 
-    function withdraw() public {
-        // Uncomment this line, and the import of "hardhat/console.sol", to print a log in your terminal
-        // console.log("Unlock time is %o and block timestamp is %o", unlockTime, block.timestamp);
+    // Function to store a new number
+    function storeNumber(uint256 newNumber) public {
+        storedNumber = newNumber;
+        emit NumberStored(newNumber);
+    }
 
-        require(block.timestamp >= unlockTime, "You can't withdraw yet");
-        require(msg.sender == owner, "You aren't the owner");
-
-        emit Withdrawal(address(this).balance, block.timestamp);
-
-        owner.transfer(address(this).balance);
+    // Function to retrieve the stored number
+    function retrieveNumber() public view returns (uint256) {
+        return storedNumber;
     }
 }
