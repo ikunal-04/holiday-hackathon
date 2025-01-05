@@ -1,7 +1,5 @@
-import { ethers } from 'ethers'
-
-const contractAddress = "0x8F6d2aF544F1167CEc09c21493d2644f73518357"
-const contractABI = [
+export const CONTRACT_ADDRESS = '0x8F6d2aF544F1167CEc09c21493d2644f73518357';
+export const CONTRACT_ABI = [
   {
     "inputs": [],
     "stateMutability": "nonpayable",
@@ -632,55 +630,4 @@ const contractABI = [
     "stateMutability": "nonpayable",
     "type": "function"
   }
-];
-
-let contract: ethers.Contract | null = null
-
-export async function initializeContract() {
-  if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
-    try {
-      await window.ethereum.request({ method: 'eth_requestAccounts' })
-      const provider = new ethers.BrowserProvider(window.ethereum)
-      const signer = await provider.getSigner()
-      contract = new ethers.Contract(contractAddress, contractABI, signer)
-      return true
-    } catch (error) {
-      console.error("Failed to initialize contract:", error)
-      return false
-    }
-  }
-  return false
-}
-
-export async function createChallenge(title: string, category: string, stakingAmount: string, durationInDays: number, gracePeriodHours: number) {
-  if (!contract) await initializeContract()
-  if (!contract) throw new Error("Contract not initialized")
-  const tx = await contract.createChallenge(title, category, ethers.parseEther(stakingAmount), durationInDays, gracePeriodHours, { value: ethers.parseEther(stakingAmount) })
-  await tx.wait()
-}
-
-export async function getChallengeDetails(challengeId: number) {
-  if (!contract) await initializeContract()
-  if (!contract) throw new Error("Contract not initialized")
-  return await contract.getChallengeDetails(challengeId)
-}
-
-export async function uploadDailyPost(challengeId: number, ipfsHash: string) {
-  if (!contract) await initializeContract()
-  if (!contract) throw new Error("Contract not initialized")
-  const tx = await contract.uploadDailyPost(challengeId, ipfsHash)
-  await tx.wait()
-}
-
-export async function getCategories() {
-  if (!contract) await initializeContract()
-  if (!contract) throw new Error("Contract not initialized")
-  return await contract.getCategories()
-}
-
-export async function withdrawUnclaimedRewards(challengeId: number) {
-  if (!contract) await initializeContract()
-  if (!contract) throw new Error("Contract not initialized")
-  const tx = await contract.withdrawUnclaimedRewards(challengeId)
-  await tx.wait()
-}
+] as const;
