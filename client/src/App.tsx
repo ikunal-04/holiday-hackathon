@@ -1,4 +1,3 @@
-import React from 'react';
 import { Toaster } from 'react-hot-toast';
 import { ConnectWallet } from './components/ConnectWallet';
 import { CreateChallenge } from './components/CreateChallenge';
@@ -7,15 +6,15 @@ import { Trophy } from 'lucide-react';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-pink-200">
       <Toaster position="top-right" />
       
-      <nav className="bg-white shadow-sm">
+      <nav className="bg-yellow-300 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <Trophy className="w-8 h-8 text-indigo-600" />
-              <h1 className="text-2xl font-bold text-gray-900">Resolution DApp</h1>
+              <Trophy className="w-8 h-8 text-purple-600" />
+              <h1 className="text-3xl font-bold text-blue-900">Funky Resolution DApp</h1>
             </div>
             <ConnectWallet />
           </div>
@@ -24,7 +23,7 @@ function App() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">Active Challenges</h2>
+          <h2 className="text-4xl font-bold text-blue-900">Active Challenges</h2>
           <CreateChallenge />
         </div>
         

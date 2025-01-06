@@ -24,20 +24,20 @@ export const ChallengeList: React.FC = () => {
       {challenges.map((challenge) => (
         <div
           key={challenge.id}
-          className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+          className="bg-yellow-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow transform hover:scale-105"
         >
-          <div className="bg-indigo-600 p-4 text-white">
-            <h3 className="text-xl font-semibold flex items-center gap-2">
-              <Trophy className="w-5 h-5" />
+          <div className="bg-purple-500 p-4 text-white">
+            <h3 className="text-2xl font-bold flex items-center gap-2">
+              <Trophy className="w-6 h-6" />
               {challenge.title}
             </h3>
-            <span className="text-indigo-200">{challenge.category}</span>
+            <span className="text-yellow-200">{challenge.category}</span>
           </div>
           
           <div className="p-4 space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-gray-600">Staking Amount:</span>
-              <span className="font-semibold">{formatEther(challenge.stakingAmount)} ETH</span>
+              <span className="text-gray-800">Staking Amount:</span>
+              <span className="font-bold">{formatEther(challenge.stakingAmount)} ETH</span>
             </div>
             
             <div className="flex justify-between items-center">
@@ -67,8 +67,8 @@ export const ChallengeList: React.FC = () => {
             </div>
           </div>
           
-          <div className="p-4 bg-gray-50 border-t">
-            <button className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+          <div className="p-4 bg-gray-100 border-t">
+            <button className="w-full bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
               Join Challenge
             </button>
           </div>

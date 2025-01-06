@@ -22,6 +22,7 @@ export const CreateChallenge: React.FC = () => {
       toast.success('Challenge created successfully!');
       setIsOpen(false);
     } catch (error) {
+      console.error(error);
       toast.error('Failed to create challenge');
     }
   };
@@ -30,16 +31,16 @@ export const CreateChallenge: React.FC = () => {
     <div>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+        className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
       >
-        <Plus className="w-5 h-5" />
+        <Plus className="w-6 h-6" />
         Create Challenge
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <h2 className="text-2xl font-bold mb-4">Create New Challenge</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-lg">
+            <h2 className="text-3xl font-bold mb-4 text-purple-600">Create New Challenge</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Title</label>
@@ -100,14 +101,14 @@ export const CreateChallenge: React.FC = () => {
               <div className="flex gap-4">
                 <button
                   type="submit"
-                  className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+                  className="flex-1 bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors"
                 >
                   Create
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="flex-1 bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors"
+                  className="flex-1 bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors"
                 >
                   Cancel
                 </button>

@@ -22,9 +22,9 @@ export const ConnectWallet: React.FC = () => {
     <button
       onClick={handleClick}
       disabled={isConnecting}
-      className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50"
+      className="flex items-center gap-2 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50"
     >
-      <Wallet className="w-5 h-5" />
+      <Wallet className="w-6 h-6" />
       {isConnecting ? (
         'Connecting...'
       ) : address ? (
