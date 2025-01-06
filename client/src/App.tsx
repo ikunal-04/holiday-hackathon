@@ -7,7 +7,6 @@ import TokenomicsSection from './components/TokenomicsSection';
 import { Plus, Users, DollarSign } from 'lucide-react';
 import JourneySection from './components/JourneySection';
 import CommunitySection from './components/CommunitySection';
-import Footer from './components/Footer';
 
 const ChallengeCard = ({ title, days, ethStaked }) => (
   <div className="bg-gray-800/50 rounded-lg p-6 backdrop-blur-sm">
@@ -124,7 +123,6 @@ const App = () => {
         <TokenomicsSection />
         < CommunitySection />
       </main>
-      < Footer />
     </div>
   );
 };
