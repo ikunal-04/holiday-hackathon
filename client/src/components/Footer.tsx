@@ -17,9 +17,9 @@ interface SocialLinkProps {
 }
 
 const FooterSection = ({ title, children }: FooterSectionProps) => (
-  <div className="space-y-4">
+  <div className="space-y-4 z-0">
     <h3 className="text-white font-semibold">{title}</h3>
-    <div className="space-y-3">
+    <div className="space-y-3 z-0">
       {children}
     </div>
   </div>
@@ -28,7 +28,7 @@ const FooterSection = ({ title, children }: FooterSectionProps) => (
 const FooterLink = ({ href, children }: FooterLinkProps) => (
   <a
     href={href}
-    className="block text-gray-400 hover:text-white transition-colors opacity-50 cursor-not-allowed"
+    className="block text-gray-400 hover:text-white transition-colors opacity-50 z-0 cursor-not-allowed"
   >
     {children}
   </a>

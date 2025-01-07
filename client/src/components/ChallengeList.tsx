@@ -1,16 +1,39 @@
 import React, { useEffect } from 'react';
 import { format } from 'date-fns';
 import { useChallengeStore } from '../store/useChallengeStore';
+import { useWalletStore } from '../store/useWalletStore';
 import { formatEther } from 'ethers';
-import { Trophy } from 'lucide-react';
-import { CreateChallenge } from './CreateChallenge';
+import { Trophy, Calendar, Users, Clock, Upload, Dumbbell } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export const ChallengeList: React.FC = () => {
-  const { challenges, loading, fetchChallenges } = useChallengeStore();
+  const { challenges, loading, fetchChallenges, joinChallenge, uploadDailyPost } = useChallengeStore();
+  const { address } = useWalletStore();
 
   useEffect(() => {
     fetchChallenges();
-  }, [fetchChallenges]);
+  }, [fetchChallenges, address]);
+
+  const handleJoinChallenge = async (challengeId: number, stakingAmount: bigint) => {
+    if (!address) {
+      toast.error('Please connect your wallet first');
+      return;
+    }
+
+    try {
+      await joinChallenge(challengeId, stakingAmount);
+    } catch (error) {
+      // Error is handled in the store
+      console.error(error);
+    }
+  };
+
+  const formatRemainingTime = (seconds: number) => {
+    if (seconds <= 0) return 'Enrollment ended';
+    const days = Math.floor(seconds / (24 * 3600));
+    const hours = Math.floor((seconds % (24 * 3600)) / 3600);
+    return `${days}d ${hours}h remaining`;
+  };
 
   if (loading) {
     return (
@@ -25,62 +48,126 @@ export const ChallengeList: React.FC = () => {
       {challenges.map((challenge) => (
         <div
           key={challenge.id}
-          className="bg-yellow-200 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow transform hover:scale-105"
+          className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
         >
-          <div className="bg-purple-500 p-4 text-white">
-            <h3 className="text-2xl font-bold flex items-center gap-2">
-              <Trophy className="w-6 h-6" />
-              {challenge.title}
-            </h3>
-            <span className="text-yellow-200">{challenge.category}</span>
-          </div>
-
-          <div className="p-4 space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-gray-800">Staking Amount:</span>
-              <span className="font-bold">{formatEther(challenge.stakingAmount)} ETH</span>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Start Date:</span>
-              <span>{format(challenge.startTime * 1000, 'PPP')}</span>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">End Date:</span>
-              <span>{format(challenge.endTime * 1000, 'PPP')}</span>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Participants:</span>
-              <span>{challenge.participantCount}</span>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Status:</span>
-              <span className={`px-2 py-1 rounded-full text-sm ${challenge.isActive
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-red-100 text-red-800'
-                }`}>
+          <div className="bg-indigo-600 p-4 text-white">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-semibold flex items-center gap-2">
+                <Dumbbell className="w-5 h-5" />
+                {challenge.title}
+              </h3>
+              <span className={`px-2 py-1 rounded-full text-xs ${
+                challenge.isActive
+                  ? 'bg-green-500 text-white'
+                  : 'bg-red-500 text-white'
+              }`}>
                 {challenge.isActive ? 'Active' : 'Completed'}
               </span>
             </div>
+            <div className="flex items-center gap-1 text-indigo-200 mt-1">
+              <span>Created by:</span>
+              <span className="font-mono">{challenge.creator.slice(0, 6)}...{challenge.creator.slice(-4)}</span>
+            </div>
           </div>
+          
+          <div className="p-4 space-y-4">
+            <div className="bg-gray-50 p-3 rounded-lg">
+              <h4 className="font-semibold text-gray-700 mb-2">Challenge Details</h4>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600 flex items-center gap-2">
+                    <Trophy className="w-4 h-4" />
+                    Category
+                  </span>
+                  <span className="font-medium">{challenge.category}</span>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600 flex items-center gap-2">
+                    <Users className="w-4 h-4" />
+                    Participants
+                  </span>
+                  <span className="font-medium">{challenge.participantCount}</span>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600 flex items-center gap-2">
+                    <Calendar className="w-4 h-4" />
+                    Duration
+                  </span>
+                  <span className="font-medium">
+                    {format(challenge.startTime * 1000, 'MMM d')} - {format(challenge.endTime * 1000, 'MMM d, yyyy')}
+                  </span>
+                </div>
 
-          <div className="p-4 bg-gray-100 border-t">
-            <button className="w-full bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
-              Join Challenge
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600 flex items-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    Grace Period
+                  </span>
+                  <span className="font-medium">{challenge.gracePeriodHours}h</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-indigo-50 p-3 rounded-lg">
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-indigo-900">Staking Amount</span>
+                <span className="font-bold text-indigo-600">{formatEther(challenge.stakingAmount)} ETH</span>
+              </div>
+            </div>
+
+            {/* {challenge.isUserEnrolled && (
+              <div className="bg-green-50 p-3 rounded-lg">
+                <div className="flex items-center gap-2 text-green-800">
+                  <Trophy className="w-4 h-4" />
+                  <span className="font-medium">You're enrolled!</span>
+                </div>
+              </div>
+            )} */}
+
+            {challenge.remainingEnrollmentTime !== undefined && (
+              <div className="bg-blue-50 p-3 rounded-lg">
+                <div className="flex items-center gap-2 text-blue-800">
+                  <Clock className="w-4 h-4" />
+                  <span className="font-medium">
+                    {formatRemainingTime(challenge.remainingEnrollmentTime)}
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <div className="p-4 bg-gray-50 border-t space-y-3">
+            <button
+              onClick={() => handleJoinChallenge(challenge.id, challenge.stakingAmount)}
+              disabled={
+                !challenge.isActive || 
+                !address || 
+                challenge.isUserEnrolled || 
+                (challenge.remainingEnrollmentTime !== undefined && challenge.remainingEnrollmentTime <= 0)
+              }
+              className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {challenge.isUserEnrolled 
+                ? 'Already Enrolled' 
+                : challenge.remainingEnrollmentTime !== undefined && challenge.remainingEnrollmentTime <= 0
+                ? 'Enrollment Ended'
+                : 'Join Challenge'
+              }
             </button>
+
+            {challenge.isActive && challenge.isUserEnrolled && (
+              <button className="w-full flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                onClick={() => uploadDailyPost(challenge.id, 'Qm ...')}
+              >
+                <Upload className="w-4 h-4" />
+                Post Daily Update
+              </button>
+            )}
           </div>
         </div>
       ))}
-      <div>
-        <p
-          className="fixed bottom-4 right-4 text-white shadow-lg transition duration-300"
-        >
-          <CreateChallenge />
-        </p>
-      </div>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { ethers } from 'ethers';
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../config/contract';
 import { useWalletStore } from './useWalletStore';
+import toast from 'react-hot-toast';
 
 interface Challenge {
   id: number;
@@ -14,6 +15,8 @@ interface Challenge {
   gracePeriodHours: number;
   isActive: boolean;
   participantCount: number;
+  isUserEnrolled?: boolean;
+  remainingEnrollmentTime?: number;
 }
 
 interface ChallengeState {
@@ -27,6 +30,7 @@ interface ChallengeState {
     durationInDays: number;
     gracePeriodHours: number;
   }) => Promise<void>;
+  joinChallenge: (challengeId: number, stakingAmount: bigint) => Promise<void>;
   uploadDailyPost: (challengeId: number, ipfsHash: string) => Promise<void>;
 }
 
@@ -109,6 +113,42 @@ export const useChallengeStore = create<ChallengeState>((set, get) => ({
       await tx.wait();
     } catch (error) {
       console.error('Failed to upload daily post:', error);
+      throw error;
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  joinChallenge: async (challengeId: number, stakingAmount: bigint) => {
+    try {
+      set({ loading: true });
+      const { signer, address } = useWalletStore.getState();
+      
+      if (!signer || !address) throw new Error('Wallet not connected');
+
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+      
+      // Check if already enrolled
+      const isEnrolled = await contract.isEnrolled(challengeId, address);
+      if (isEnrolled) {
+        throw new Error('You are already enrolled in this challenge');
+      }
+
+      // Check remaining enrollment time
+      const remainingTime = await contract.getRemainingEnrollmentTime(challengeId);
+      if (remainingTime <= 0) {
+        throw new Error('Enrollment period has ended');
+      }
+
+      const tx = await contract.enrollInChallenge(challengeId, { value: stakingAmount });
+      await tx.wait();
+      
+      await get().fetchChallenges();
+      toast.success('Successfully joined the challenge!');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error('Failed to join challenge:', error);
+      toast.error(error.message || 'Failed to join challenge');
       throw error;
     } finally {
       set({ loading: false });

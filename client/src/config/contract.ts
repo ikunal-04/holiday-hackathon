@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = '0x8F6d2aF544F1167CEc09c21493d2644f73518357';
+export const CONTRACT_ADDRESS = '0xc07387E5A4A048a09FDc8a047bBE608F164fbEbe';
 export const CONTRACT_ABI = [
   {
     "inputs": [],
@@ -421,6 +421,19 @@ export const CONTRACT_ABI = [
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_challengeId",
+        "type": "uint256"
+      }
+    ],
+    "name": "enrollInChallenge",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "getCategories",
     "outputs": [
@@ -498,6 +511,25 @@ export const CONTRACT_ABI = [
         "internalType": "uint256",
         "name": "_challengeId",
         "type": "uint256"
+      }
+    ],
+    "name": "getRemainingEnrollmentTime",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_challengeId",
+        "type": "uint256"
       },
       {
         "internalType": "address",
@@ -511,6 +543,30 @@ export const CONTRACT_ABI = [
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_challengeId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
+      }
+    ],
+    "name": "isEnrolled",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",

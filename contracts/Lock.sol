@@ -223,6 +223,57 @@ contract ResolutionChallenge is Pausable, Ownable, ReentrancyGuard {
         );
     }
 
+     function enrollInChallenge(uint256 _challengeId) 
+        external 
+        payable 
+        challengeExists(_challengeId)
+        challengeActive(_challengeId)
+        whenNotPaused
+        nonReentrant
+    {
+        Challenge storage challenge = challenges[_challengeId];
+        
+        // Check enrollment requirements
+        require(!challenge.participants[msg.sender], "Already enrolled");
+        require(msg.value == challenge.stakingAmount, "Incorrect staking amount");
+        require(block.timestamp <= challenge.endTime, "Challenge has ended");
+        
+        // Calculate days elapsed since challenge start
+        uint256 daysElapsed = (block.timestamp - challenge.startTime) / 1 days;
+        require(daysElapsed < 3, "Cannot join after 2 days of challenge start");
+
+        // Enroll the participant
+        challenge.participants[msg.sender] = true;
+        challenge.participantCount++;
+
+        emit UserEnrolled(_challengeId, msg.sender);
+    }
+
+    function isEnrolled(uint256 _challengeId, address _user) 
+        external 
+        view 
+        challengeExists(_challengeId) 
+        returns (bool) 
+    {
+        return challenges[_challengeId].participants[_user];
+    }
+
+    function getRemainingEnrollmentTime(uint256 _challengeId) 
+        external 
+        view 
+        challengeExists(_challengeId) 
+        returns (uint256) 
+    {
+        Challenge storage challenge = challenges[_challengeId];
+        uint256 daysElapsed = (block.timestamp - challenge.startTime) / 1 days;
+        
+        if (daysElapsed >= 2) {
+            return 0;
+        }
+        
+        return 2 days - ((block.timestamp - challenge.startTime) % 2 days);
+    }
+
     function modifyChallenge(
         uint256 _challengeId,
         uint256 _newDurationInDays,
