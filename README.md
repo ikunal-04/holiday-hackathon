@@ -25,7 +25,7 @@ Imagine this: You’ve set a resolution to run a marathon, but as the weeks go b
 
 ---
 📺 **Watch the Presentation Video**  
-[Click here to watch the presentation video!](your-video-link-here)
+[Click here to watch the presentation video!](https://drive.google.com/file/d/12Yphay5vKWD1FL7o5sJCklhgdV5UgxP7/view?usp=sharing)
 
 🚀 Bringing Resolutions On-Chain
 
@@ -167,3 +167,9 @@ ResolutionDAO isn’t just about individual goals—it’s about building a **co
 Let’s achieve more together. Let’s make our goals a reality. Let’s create a world of accountability and accomplishment. Welcome to **ResolutionDAO**!
 
 ---
+
+## All Important Links
+
+- [Presentation Video](https://drive.google.com/file/d/12Yphay5vKWD1FL7o5sJCklhgdV5UgxP7/view?usp=sharing)
+- [Deployed Contract](https://block-explorer.testnet.lens.dev/address/0xc07387E5A4A048a09FDc8a047bBE608F164fbEbe#contract)
+- [Slide Deck](https://drive.google.com/file/d/1hF6GOrDuziXkft1oG2yL__T9aRJKRkRH/view?usp=sharing)
