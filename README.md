@@ -173,3 +173,4 @@ Let’s achieve more together. Let’s make our goals a reality. Let’s create 
 - [Presentation Video](https://drive.google.com/file/d/12Yphay5vKWD1FL7o5sJCklhgdV5UgxP7/view?usp=sharing)
 - [Deployed Contract](https://block-explorer.testnet.lens.dev/address/0xc07387E5A4A048a09FDc8a047bBE608F164fbEbe#contract)
 - [Slide Deck](https://drive.google.com/file/d/1hF6GOrDuziXkft1oG2yL__T9aRJKRkRH/view?usp=sharing)
+- [Prototype Demo](https://resolutiondao.vercel.app/)
