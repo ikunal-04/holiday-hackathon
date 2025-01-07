@@ -1,14 +1,26 @@
-import React from 'react';
 import { DollarSign, Briefcase, FileText } from 'lucide-react';
 
-const TokenMetricCard = ({ value, label }) => (
+interface TokenMetricCardProps {
+  value: string;
+  label: string;
+}
+
+interface TokenomicsCardProps {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  metric: string;
+  metricLabel: string;
+}
+
+const TokenMetricCard = ({ value, label }: TokenMetricCardProps) => (
   <div className="bg-gray-800/50 rounded-lg p-4">
     <h4 className="text-violet-500 text-2xl font-bold mb-1">{value}</h4>
     <p className="text-gray-400 text-sm">{label}</p>
   </div>
 );
 
-const TokenomicsCard = ({ icon: Icon, title, description, metric, metricLabel }) => (
+const TokenomicsCard = ({ icon: Icon, title, description, metric, metricLabel }: TokenomicsCardProps) => (
   <div className="bg-gray-800/50 rounded-lg p-6 backdrop-blur-sm">
     <div className="bg-violet-900/30 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
       <Icon className="w-6 h-6 text-violet-400" />

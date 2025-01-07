@@ -1,6 +1,12 @@
-import React from 'react';
 
-const JourneyStep = ({ number, title, description, items }) => (
+interface JourneyStepProps {
+  number: number;
+  title: string;
+  description: string;
+  items: string[];
+}
+
+const JourneyStep = ({ number, title, description, items }: JourneyStepProps) => (
   <div className="bg-gray-800/30 rounded-lg p-6 backdrop-blur-sm relative">
     <h3 className="text-white text-xl font-semibold mb-2">{title}</h3>
     <p className="text-gray-400 text-sm mb-4">{description}</p>
@@ -12,7 +18,7 @@ const JourneyStep = ({ number, title, description, items }) => (
         </li>
       ))}
     </ul>
-    <div 
+    <div
       className="absolute -right-8 top-1/2 transform -translate-y-1/2 w-16 h-16 
                  bg-violet-500 rounded-full flex items-center justify-center
                  text-white text-xl font-bold z-10"
@@ -73,12 +79,11 @@ const JourneySection = () => {
       <div className="relative">
         {/* Vertical line */}
         <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-violet-500/30"></div>
-        
+
         <div className="space-y-24">
           {journeySteps.map((step, index) => (
-            <div key={index} className={`grid grid-cols-2 gap-16 ${
-              index % 2 === 0 ? 'pr-24' : 'pl-24'
-            }`}>
+            <div key={index} className={`grid grid-cols-2 gap-16 ${index % 2 === 0 ? 'pr-24' : 'pl-24'
+              }`}>
               {index % 2 === 0 ? (
                 <>
                   <JourneyStep {...step} />

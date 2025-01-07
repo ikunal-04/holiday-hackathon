@@ -175,7 +175,6 @@ contract ResolutionChallenge is Pausable, Ownable, ReentrancyGuard {
     }
 
     constructor() {
-        // Initialize with default categories
         addCategory("Fitness");
         addCategory("Education");
         addCategory("Health");

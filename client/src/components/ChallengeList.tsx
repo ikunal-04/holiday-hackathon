@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { useChallengeStore } from '../store/useChallengeStore';
 import { formatEther } from 'ethers';
 import { Trophy } from 'lucide-react';
+import { CreateChallenge } from './CreateChallenge';
 
 export const ChallengeList: React.FC = () => {
   const { challenges, loading, fetchChallenges } = useChallengeStore();
@@ -33,40 +34,39 @@ export const ChallengeList: React.FC = () => {
             </h3>
             <span className="text-yellow-200">{challenge.category}</span>
           </div>
-          
+
           <div className="p-4 space-y-3">
             <div className="flex justify-between items-center">
               <span className="text-gray-800">Staking Amount:</span>
               <span className="font-bold">{formatEther(challenge.stakingAmount)} ETH</span>
             </div>
-            
+
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Start Date:</span>
               <span>{format(challenge.startTime * 1000, 'PPP')}</span>
             </div>
-            
+
             <div className="flex justify-between items-center">
               <span className="text-gray-600">End Date:</span>
               <span>{format(challenge.endTime * 1000, 'PPP')}</span>
             </div>
-            
+
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Participants:</span>
               <span>{challenge.participantCount}</span>
             </div>
-            
+
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Status:</span>
-              <span className={`px-2 py-1 rounded-full text-sm ${
-                challenge.isActive
+              <span className={`px-2 py-1 rounded-full text-sm ${challenge.isActive
                   ? 'bg-green-100 text-green-800'
                   : 'bg-red-100 text-red-800'
-              }`}>
+                }`}>
                 {challenge.isActive ? 'Active' : 'Completed'}
               </span>
             </div>
           </div>
-          
+
           <div className="p-4 bg-gray-100 border-t">
             <button className="w-full bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
               Join Challenge
@@ -74,6 +74,13 @@ export const ChallengeList: React.FC = () => {
           </div>
         </div>
       ))}
+      <div>
+        <p
+          className="fixed bottom-4 right-4 text-white shadow-lg transition duration-300"
+        >
+          <CreateChallenge />
+        </p>
+      </div>
     </div>
   );
 };

@@ -1,7 +1,22 @@
-import React from 'react';
-import { Twitter, Github, Discord } from 'lucide-react';
+import { Twitter, Github } from 'lucide-react';
 
-const FooterSection = ({ title, children }) => (
+interface FooterSectionProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+interface FooterLinkProps {
+  href: string;
+  children: React.ReactNode;
+}
+
+interface SocialLinkProps {
+  href: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  icon: any;
+}
+
+const FooterSection = ({ title, children }: FooterSectionProps) => (
   <div className="space-y-4">
     <h3 className="text-white font-semibold">{title}</h3>
     <div className="space-y-3">
@@ -10,17 +25,17 @@ const FooterSection = ({ title, children }) => (
   </div>
 );
 
-const FooterLink = ({ href, children }) => (
-  <a 
-    href={href} 
-    className="block text-gray-400 hover:text-white transition-colors"
+const FooterLink = ({ href, children }: FooterLinkProps) => (
+  <a
+    href={href}
+    className="block text-gray-400 hover:text-white transition-colors opacity-50 cursor-not-allowed"
   >
     {children}
   </a>
 );
 
-const SocialLink = ({ href, icon: Icon }) => (
-  <a 
+const SocialLink = ({ href, icon: Icon }: SocialLinkProps) => (
+  <a
     href={href}
     className="text-gray-400 hover:text-violet-400 transition-colors"
     target="_blank"
@@ -43,8 +58,7 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <SocialLink href="#twitter" icon={Twitter} />
-              <SocialLink href="#github" icon={Github} />
-              <SocialLink href="#discord" icon={Discord} />
+              <SocialLink href="https://github.com/ikunal-04/holiday-hackathon/tree/v1.0" icon={Github} />
             </div>
           </div>
 
@@ -65,7 +79,7 @@ const Footer = () => {
           </FooterSection>
 
           {/* Stay Updated */}
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <h3 className="text-white font-semibold">Stay Updated</h3>
             <p className="text-gray-400">
               Get the latest updates and news directly to your inbox.
@@ -83,12 +97,12 @@ const Footer = () => {
                 Subscribe
               </button>
             </form>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom Section */}
         <div className="flex justify-between items-center pt-8 border-t border-gray-800">
-          <p className="text-gray-400">© 2024 ResolutionDAO. All rights reserved.</p>
+          <p className="text-gray-400">© 2025 ResolutionDAO. All rights reserved.</p>
           <div className="flex gap-6">
             <FooterLink href="#privacy">Privacy Policy</FooterLink>
             <FooterLink href="#terms">Terms of Service</FooterLink>

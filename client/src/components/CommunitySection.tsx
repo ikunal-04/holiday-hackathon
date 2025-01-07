@@ -1,7 +1,12 @@
-import React from 'react';
 import { Fingerprint, Users, Zap } from 'lucide-react';
 
-const FeatureItem = ({ icon: Icon, text }) => (
+interface FeatureItemProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Icon: any;
+  text: string;
+}
+
+const FeatureItem = ({ Icon, text }: FeatureItemProps) => (
   <div className="flex items-center gap-3 text-gray-300">
     <div className="bg-violet-900/30 p-2 rounded-lg">
       <Icon className="w-5 h-5 text-violet-400" />
@@ -20,29 +25,29 @@ const CommunitySection = () => {
             <div className="inline-block bg-violet-900/30 text-violet-400 px-4 py-2 rounded-full text-sm">
               Join Our Community
             </div>
-            
+
             <h2 className="text-4xl font-bold text-white">
               Be Part of the Resolution Revolution
             </h2>
-            
+
             <p className="text-gray-400 text-lg">
-              Join thousands of goal-setters who are transforming their lives 
-              through blockchain-powered accountability. Connect, compete, 
+              Join thousands of goal-setters who are transforming their lives
+              through blockchain-powered accountability. Connect, compete,
               and succeed together.
             </p>
 
             <div className="space-y-4 mt-8">
-              <FeatureItem 
-                icon={Fingerprint} 
-                text="Active global community" 
+              <FeatureItem
+                Icon={Fingerprint}
+                text="Active global community"
               />
-              <FeatureItem 
-                icon={Users} 
-                text="Peer support system" 
+              <FeatureItem
+                Icon={Users}
+                text="Peer support system"
               />
-              <FeatureItem 
-                icon={Zap} 
-                text="Daily motivation boost" 
+              <FeatureItem
+                Icon={Zap}
+                text="Daily motivation boost"
               />
             </div>
           </div>

@@ -2,18 +2,25 @@ import React from 'react';
 import { Wallet } from 'lucide-react';
 import { useWalletStore } from '../store/useWalletStore';
 import { formatAddress } from '../utils/format';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export const ConnectWallet: React.FC = () => {
   const { address, connect, disconnect, isConnecting } = useWalletStore();
+  const navigate = useNavigate();
 
   const handleClick = async () => {
     if (address) {
       disconnect();
+      navigate('/');
+      toast.success('Disconnected from wallet');
     } else {
       try {
         await connect();
+        navigate('/challenges');
+        toast.success('Connected to wallet');
       } catch {
-        // Error is handled in the store with toast
+        console.error('Failed to connect wallet');
       }
     }
   };
