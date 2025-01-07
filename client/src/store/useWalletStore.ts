@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from 'zustand';
 import { ethers } from 'ethers';
 import { switchToLensNetwork, validateNetwork } from '../utils/network';
@@ -41,9 +42,8 @@ export const useWalletStore = create<WalletState>((set) => ({
 
       const signer = await provider.getSigner();
       const address = await signer.getAddress();
-
       // Setup network change listener
-      window.ethereum.on('chainChanged', (chainId: string) => {
+      (window.ethereum as any).on('chainChanged', (chainId: string) => {
         const numericChainId = parseInt(chainId, 16);
         useWalletStore.getState().handleNetworkChange(numericChainId);
       });
@@ -60,7 +60,7 @@ export const useWalletStore = create<WalletState>((set) => ({
 
   disconnect: () => {
     if (window.ethereum) {
-      window.ethereum.removeAllListeners('chainChanged');
+      (window.ethereum as any).removeAllListeners('chainChanged');
     }
     set({ address: null, provider: null, signer: null });
   },
